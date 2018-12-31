@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav" style="text-align:center;">      
-      <h2 style="color: #42b983;">创建一个投票</h2>
-    </div>
+    
     <router-view/>
   </div>
 </template>

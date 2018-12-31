@@ -1,7 +1,18 @@
 <template>
-    <div style="margin:auto;display:flex;align-items:center;flex-direction:column;max-width:600px;">
-        <Form10 ref="form10" :schema="schema" :plugins="form10plugins" v-model="model" style="width:100%;flex:1;" :options="options"/>
-        <el-button type="primary" style="width:100%;" @click="submit">提交</el-button>
+    <div style="">
+        <div class="create-left">
+            <div style="text-align:center;">
+                <h2 style="color: #42b983;">创建一个投票</h2>
+            </div>
+            <Form10 ref="form10" :schema="schema" :plugins="form10plugins" v-model="model" style="width:100%;flex:1;" :options="options" />
+            <el-button type="primary" style="width:100%;" @click="submit">提交</el-button>
+        </div>
+        <div class="create-right">
+            <div style="text-align:center;">
+                <h2 style="color: #428983;">预览</h2>                
+            </div>
+            <Vote v-bind="model"/>
+        </div>
     </div>
 </template>
 
@@ -12,12 +23,18 @@ import Vue from "vue";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import array2Format from "./array.vue";
+import Vote from "./Vote.vue";
 
 Vue.use(ElementUI);
+interface ChoiceItem {
+    title: String;
+    description: String;
+}
 export default {
     name: "Create",
     data() {
         return {
+            voteConfig: {},
             model: {},
             form10plugins: form10plugins.concat(array2Format),
             options: {
@@ -55,10 +72,10 @@ export default {
                                     type: "string",
                                     title: "标题"
                                 },
-                                description: {
-                                    type: "string",
-                                    title: "描述"
-                                }
+                                // description: {
+                                //     type: "string",
+                                //     title: "描述"
+                                // }
                             }
                         },
                         default: [{}]
@@ -81,7 +98,7 @@ export default {
                     maximum: {
                         type: "integer",
                         title: "数量上限",
-                        condition:"parentModel.multiple"
+                        condition: "parentModel.multiple"
                     },
                     deadline: {
                         type: "number",
@@ -94,36 +111,34 @@ export default {
     },
     methods: {
         async submit() {
-            const result=await this.$refs.form10.submit();
-            if(result.error) {
+            const result = await this.$refs.form10.submit();
+            if (result.error) {
                 this.$message.error(result.error.message);
             }
             console.log(await this.$refs.form10.submit());
+            this.voteConfig = result.value;
         }
     },
     props: {
-        msg: String
+        msg: String,
+        
     },
     components: {
-        Form10
+        Form10, Vote
     }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-h3 {
-    margin: 40px 0 0;
+.create-left {
+    position: absolute;
+    left: 5%;
+    width:40%;
 }
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-a {
-    color: #42b983;
+.create-right {
+    position: absolute;
+    right:5%;
+    width:40%;
 }
 </style>

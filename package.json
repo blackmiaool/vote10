@@ -10,7 +10,7 @@
   "dependencies": {
     "element-ui": "^2.4.11",
     "vue": "^2.5.17",
-    "vue-form10": "git+ssh://git@v9.git.n.xiaomi.com/miot-fe-arch/vue-form10.git",
+    "vue-form10": "^1.1.31",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.17.0",
     "vuex": "^3.0.1"
