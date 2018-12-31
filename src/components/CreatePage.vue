@@ -24,13 +24,11 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import array2Format from "./array.vue";
 import Vote from "./Vote.vue";
+import axios from "axios";
 
 Vue.use(ElementUI);
-interface ChoiceItem {
-    title: String;
-    description: String;
-}
-export default {
+
+export default Vue.extend({
     name: "Create",
     data() {
         return {
@@ -121,12 +119,12 @@ export default {
     },
     props: {
         msg: String,
-        
+
     },
     components: {
-        Form10, Vote
+        Form10: Form10 as Vue.Component, Vote
     }
-};
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

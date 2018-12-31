@@ -1,22 +1,14 @@
 <template>
     <TypeWrapper v-bind="typeWrapperProps" ref="typeWrapper">
         <div slot="input" class="array-wrap">
-            <draggable v-if="model&&model.length" class="list-group"
-                element="ol" :list="model" :options="{animation: 150,handle:'.sort-handle'}">
-                <li v-for="(item,$index) in model" :key="$index"
-                    class="list-group-item" :class="{inline:options.inline}">
-                    <AnyType :options="options" :schema="schema.items"
-                        :parent-path="path" parent="array"
-                        :name="$index" :is-last="$index===model.length-1"
-                        v-bind="getChildProps($index)"
-                    />
+            <draggable v-if="model&&model.length" class="list-group" element="ol" :list="model" :options="{animation: 150,handle:'.sort-handle'}">
+                <li v-for="(item,$index) in model" :key="$index" class="list-group-item" :class="{inline:options.inline}">
+                    <AnyType :options="options" :schema="schema.items" :parent-path="path" parent="array" :name="$index" :is-last="$index===model.length-1" v-bind="getChildProps($index)" />
                     <i class="el-icon-sort sort-handle tool-btn" :title="'拖拽排序(序号:'+$index+')'" v-if="form.draggable"></i>
-                    <i class="el-icon-delete delete-btn tool-btn" @click="deleteItem($index)"
-                        title="删除"></i>
+                    <i class="el-icon-delete delete-btn tool-btn" @click="deleteItem($index)" title="删除"></i>
                 </li>
             </draggable>
-            <el-button type="default" class="add-btn"
-                @click="addItem" v-if="schema.items">
+            <el-button type="default" class="add-btn" @click="addItem" v-if="schema.items">
                 <i class="el-icon-plus"></i> 添加
             </el-button>
             <div v-if="!schema.items">
@@ -28,8 +20,24 @@
 </template>
 
 <script  lang="ts">
+import Vue from "vue";
 import draggable from "vuedraggable";
-import { getDefaultFromSchema,FormatMixin } from "vue-form10";
+
+//1/ <reference path="./vue-form10.d.ts" />
+import { getDefaultFromSchema, FormatMixin } from "vue-form10";
+
+interface FormatMixinI {
+    data: {
+        model: any[]
+    };
+}
+const FormatMixin1 = FormatMixin as any;
+// declare module "vue/types/options" {
+//     interface ComponentOptions<V extends Vue> {
+//         // This adds the `middleware` property to the existing `vue/types/options/ComponentOptions` type
+//         form10?: any;
+//     }
+// }
 
 export default {
     name: "array2-default",
@@ -37,11 +45,11 @@ export default {
     form10: {
         format: {
             name: "array2",
-            types: ["array"],
+            types: ["array"]
         },
         defaultSchema: {
             form: {
-                draggable: true,
+                draggable: true
             }
         },
         formSchema: {
@@ -61,7 +69,7 @@ export default {
                 //     title: 'content'
                 // },
                 form: {
-                    draggable: true,
+                    draggable: true
                 }
             },
             data: [{}]
@@ -93,7 +101,10 @@ export default {
         },
         getChildProps($index) {
             return {
-                margin: $index === this.model.length - 1 ? "0px" : "0px 0px 15px 0px "
+                margin:
+                    $index === this.model.length - 1
+                        ? "0px"
+                        : "0px 0px 15px 0px "
             };
         }
     },
@@ -126,19 +137,19 @@ export default {
     .list-group-item {
         position: relative;
         border-bottom: 1px solid #dcdfe6;
-        margin-top: 5px;        
-        &.inline{
-            padding-right:20px;
-            padding-top:10px;
+        margin-top: 5px;
+        &.inline {
+            padding-right: 20px;
+            padding-top: 10px;
             > .delete-btn {
                 right: 0px;
                 cursor: pointer;
-                top:12px;
+                top: 12px;
             }
             > .sort-handle {
                 right: 1px;
                 cursor: move;
-                top:32px;
+                top: 32px;
             }
         }
         &:first-child {
@@ -147,7 +158,7 @@ export default {
         &:last-child {
             border-bottom: none;
         }
-        .tool-btn{
+        .tool-btn {
             position: absolute;
             top: 8px;
             color: #555;
