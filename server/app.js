@@ -52,14 +52,22 @@ function getUser(ctx) {
 app.use(convert(bodyparser));
 app.use(convert(json()));
 app.use(convert(logger()));
-router.post("/getVoteList", async (ctx) => {
-    if (ensureLogin(ctx)) {
-        return;
-    }
-    ctx.body = await db.getVoteList();
+router.post("/createVote", async (ctx) => {
+    // if (ensureLogin(ctx)) {
+    //     return;
+    // }
+    console.log(ctx.request.body);    
+    ctx.body = await db.createVote(ctx.request.body);
     ctx.status = 200;
 });
-
+router.post("/getVote", async (ctx) => {
+    // if (ensureLogin(ctx)) {
+    //     return;
+    // }
+    console.log(ctx.request.body);    
+    ctx.body = await db.getVote(ctx.request.body._id);
+    ctx.status = 200;
+});
 router.post("/getUserName", async ctx => {
     if (ensureLogin(ctx)) {
         return;

@@ -13,8 +13,8 @@ mongoose.set("useFindAndModify", false);
 let options = {};
 if (dbConfig.user) {
     options = {
-        user:dbConfig.user,
-        pass:dbConfig.password,
+        user: dbConfig.user,
+        pass: dbConfig.password,
         auth: {
             authdb: "admin"
         }
@@ -25,7 +25,7 @@ mongoose.connect(
     `mongodb://${dbConfig.ip}:${dbConfig.port}/${dbConfig.name}`,
     Object.assign({
         useNewUrlParser: true,
-    },options)
+    }, options)
 );
 const mdb = mongoose.connection;
 mdb.on("error", console.log.bind(console, "connection error:"));
@@ -38,18 +38,38 @@ const toObjectTransform = {
         // delete ret._id;
     }
 };
+const voteSchema = new mongoose.Schema({
+    title: String,
+    description: String,
+    list: [{
+        title: String,
+        $uid: String,
+    }],
+    anonymous: Boolean,
+    random: Boolean,
+    multiple: Boolean,
+    maximum: Number,
+    deadline: Number,
+});
+const voteModel = mongoose.model("vote10", voteSchema);
 
-const projectSchema = new mongoose.Schema(
-    {
-        creator: String,
-    },
-    {
-        toObject: toObjectTransform
+async function createVote(params) {
+    const result = await new voteModel(params).save();
+    return {
+        code: 0,
+        data: result
     }
-);
+}
 
-// const projectModel = mongoose.model("project", projectSchema);
+async function getVote(_id) {
+    return {
+        code: 0,
+        data: (await voteModel.findById(_id))
+    };
+}
+
 
 module.exports = {
-
+    createVote,
+    getVote
 };

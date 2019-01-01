@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import Countdown from "vuejs-countdown";
+import Countdown from "@blackmiaool/vuejs-countdown";
 
 function shuffle<T>(arr: T[]= []): T[] {
     const ret = [...arr];
