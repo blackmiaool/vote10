@@ -23,7 +23,7 @@
 import Vue from "vue";
 import draggable from "vuedraggable";
 
-//1/ <reference path="./vue-form10.d.ts" />
+// 1/ <reference path="./vue-form10.d.ts" />
 import { getDefaultFromSchema, FormatMixin } from "vue-form10";
 
 interface FormatMixinI {
@@ -93,6 +93,7 @@ export default {
             if (!Array.isArray(model)) {
                 model = [];
             }
+            defaultData.$uid = Date.now() + "";
             model.push(defaultData);
             this.model = model;
         },

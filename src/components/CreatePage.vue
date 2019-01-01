@@ -25,6 +25,7 @@ import "element-ui/lib/theme-chalk/index.css";
 import array2Format from "./array.vue";
 import Vote from "./Vote.vue";
 import axios from "axios";
+import request from "@/io.ts";
 
 Vue.use(ElementUI);
 
@@ -76,7 +77,7 @@ export default Vue.extend({
                                 // }
                             }
                         },
-                        default: [{}]
+                        // default: [{}]
                     },
                     anonymous: {
                         type: "boolean",
@@ -115,6 +116,10 @@ export default Vue.extend({
             }
             console.log(await this.$refs.form10.submit());
             this.voteConfig = result.value;
+            request({
+                method: "createVote",
+                data: result.value
+            });
         }
     },
     props: {
